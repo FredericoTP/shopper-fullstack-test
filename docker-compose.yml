@@ -1,0 +1,36 @@
+version: '3'
+
+services:
+  backend:
+    build: ./backend
+    container_name: backend_app
+    ports:
+      - 3001:3001
+    working_dir: /app/backend
+    volumes:
+      - ./backend/:/app/backend
+    command: dev
+    env_file:
+      - .env
+    tty: true
+    stdin_open: true
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: [ "CMD", "lsof", "-t", "-i:3001" ]
+      timeout: 10s
+      retries: 5
+
+  db:
+    image: mysql:8.0.33
+    container_name: database
+    restart: always
+    ports:
+      - 3306:3306
+    env_file:
+      - .db_env
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
+      timeout: 10s
+      retries: 5
