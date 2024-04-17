@@ -30,6 +30,8 @@ services:
       - 3306:3306
     env_file:
       - .db_env
+    volumes:
+      - ./db/:/docker-entrypoint-initdb.d/
     healthcheck:
       test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
       timeout: 10s
