@@ -35,7 +35,7 @@ class PackController {
     return res.status(201).json(newPack);
   }
 
-  public async deleteProduct(req: Request, res: Response): Promise<Response> {
+  public async deletePack(req: Request, res: Response): Promise<Response> {
     const { id } = req.params;
 
     await this.packService.deletePack(+id);
