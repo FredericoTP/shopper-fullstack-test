@@ -1,8 +1,9 @@
 import { ModelStatic } from 'sequelize';
 import ProductModel from '../database/models/ProductModel';
-import { Conflict } from '../errors';
+import { BadRequest, Conflict } from '../errors';
 import { validateCode, validateSalesPrice, validateNewProduct } from './validations/validationInputValues';
 import { IProduct } from '../interfaces/ProductInterface';
+import handleProductPrice from '../utils';
 
 class ProductService {
   private productModel: ModelStatic<ProductModel>;
@@ -38,6 +39,8 @@ class ProductService {
 
     if (checkCode) throw new Conflict('Product code already exists!');
 
+    if (costPrice > salesPrice) throw new BadRequest('Invalid sales price!');
+
     const newProduct = await this.productModel.create({
       code, name, costPrice, salesPrice,
     });
@@ -52,6 +55,10 @@ class ProductService {
     const checkCode = await this.findByCode(code);
 
     if (!checkCode) throw new Conflict('Product does not exist!');
+
+    if (checkCode.costPrice > newPrice) throw new BadRequest('Invalid sales price!');
+
+    if (!handleProductPrice(checkCode.salesPrice, newPrice)) throw new BadRequest('Invalid sales price!');
 
     await this.productModel.update(
       { salesPrice: newPrice },
