@@ -5,6 +5,12 @@ interface IProduct {
   salesPrice: number;
 }
 
+interface IUpdate {
+  code: number;
+  newPrice: number;
+}
+
 export {
   IProduct,
+  IUpdate,
 };
