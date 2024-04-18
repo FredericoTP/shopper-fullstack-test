@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { ProductService } from '../services';
 import { IProduct, IUpdate } from '../interfaces/ProductInterface';
+import { NotFound } from '../errors';
 
 class ProductController {
   constructor(private productService = new ProductService()) {}
@@ -15,6 +16,8 @@ class ProductController {
     const { id } = req.params;
 
     const product = await this.productService.findByCode(+id);
+
+    if (!product) throw new NotFound('Product not found!');
 
     return res.status(200).json(product);
   }

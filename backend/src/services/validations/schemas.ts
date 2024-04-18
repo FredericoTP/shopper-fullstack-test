@@ -28,10 +28,29 @@ const productSchema: ObjectSchema = Joi.object({
   salesPrice: salesPriceSchema,
 });
 
+const productIdSchema: NumberSchema = Joi.number().integer().min(0).required()
+  .messages(customMessage('productId', 0, 'number'));
+
+const packIdSchema: NumberSchema = Joi.number().integer().min(0).required()
+  .messages(customMessage('packId', 0, 'number'));
+
+const qtySchema: NumberSchema = Joi.number().integer().min(1).required()
+  .messages(customMessage('qty', 1, 'number'));
+
+const packSchema: ObjectSchema = Joi.object({
+  packId: packIdSchema,
+  productId: productIdSchema,
+  qty: qtySchema,
+});
+
 export {
   codeSchema,
   nameSchema,
   costPriceSchema,
   salesPriceSchema,
   productSchema,
+  productIdSchema,
+  packIdSchema,
+  qtySchema,
+  packSchema,
 };
