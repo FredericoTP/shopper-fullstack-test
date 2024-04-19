@@ -50,13 +50,13 @@ class PackService {
       where: { code: packId },
     });
 
-    if (!checkPackId) throw new Conflict('packId does not exist!');
+    if (!checkPackId) throw new Conflict('pack does not exist!');
 
     const checkProductId = await this.productModel.findOne({
       where: { code: productId },
     });
 
-    if (!checkProductId) throw new Conflict('productId does not exist!');
+    if (!checkProductId) throw new Conflict('product does not exist!');
 
     const newPack = await this.packModel.create({
       packId, productId, qty,
