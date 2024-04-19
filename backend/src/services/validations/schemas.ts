@@ -1,6 +1,4 @@
-import { NumberSchema, StringSchema, ObjectSchema } from 'joi';
-
-const Joi = require('joi');
+import Joi, { NumberSchema, StringSchema, ObjectSchema } from 'joi';
 
 const customMessage = (fieldName: string, min: number, type: string) => ({
   'string.base': `${fieldName} should be a type of ${type}`,

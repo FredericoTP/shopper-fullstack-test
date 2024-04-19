@@ -1,7 +1,7 @@
 import { ModelStatic } from 'sequelize';
 import ProductModel from '../database/models/ProductModel';
 import { BadRequest, Conflict } from '../errors';
-import { validateCode, validateSalesPrice, validateNewProduct } from './validations/validationInputValues';
+import { validateSalesPrice, validateNewProduct } from './validations/validationInputValues';
 import { IProduct } from '../interfaces/ProductInterface';
 import handleProductPrice from '../utils';
 
@@ -19,8 +19,6 @@ class ProductService {
   }
 
   public async findByCode(code: number): Promise<ProductModel | null> {
-    validateCode(code);
-
     const product = await this.productModel.findOne({
       where: { code },
     });
@@ -49,7 +47,6 @@ class ProductService {
   }
 
   public async updatePrice(code: number, newPrice: number): Promise<void> {
-    validateCode(code);
     validateSalesPrice(newPrice);
 
     const checkCode = await this.findByCode(code);
@@ -67,8 +64,6 @@ class ProductService {
   }
 
   public async deleteProduct(code: number): Promise<void> {
-    validateCode(code);
-
     const checkCode = await this.findByCode(code);
 
     if (!checkCode) throw new Conflict('Product does not exist!');
