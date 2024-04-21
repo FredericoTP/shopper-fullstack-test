@@ -1,6 +1,22 @@
 version: '3'
 
 services:
+  frontend:
+    build: ./frontend
+    container_name: frontend_app
+    ports:
+      - 3000:3000
+    working_dir: /app/frontend
+    volumes:
+      - ./frontend/:/app/frontend
+    depends_on:
+      backend:
+        condition: service_healthy
+    healthcheck:
+      test: [ "CMD", "lsof", "-t", "-i:3000" ]
+      timeout: 10s
+      retries: 5
+
   backend:
     build: ./backend
     container_name: backend_app
