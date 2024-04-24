@@ -42,6 +42,12 @@ class PackController {
 
     return res.status(200).json({ message: 'Pack has been deleted!' });
   }
+
+  public async verification(req: Request, res: Response): Promise<Response> {
+    const { body } = req;
+
+    return res.status(200).json(body);
+  }
 }
 
 export default PackController;

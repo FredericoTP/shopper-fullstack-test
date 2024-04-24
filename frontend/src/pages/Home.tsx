@@ -46,11 +46,13 @@ function Home() {
     try {
       setIsLoading(true);
 
-      const response = await api.post('/upload', csvFile.value, {
+      const response = await api.patch('/pack/verification', csvFile.value, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
       });
+
+      console.log(response.data);
 
       setAlertMessage('');
       setIsLoading(false);
