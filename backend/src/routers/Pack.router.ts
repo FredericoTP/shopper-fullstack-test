@@ -14,6 +14,8 @@ packRouter.get('/product/:id', (req: Request, res: Response) => packController.f
 
 packRouter.post('/', validateNewPack, (req: Request, res: Response) => packController.create(req, res));
 
+packRouter.patch('/verification', (req, res) => packController.verification(req, res));
+
 packRouter.delete('/:id', (req: Request, res: Response) => packController.deletePack(req, res));
 
 export default packRouter;
